@@ -147,8 +147,12 @@ CORS_ALLOW_METHODS = [
 ]
 
 # AJUSTES DO CELERY
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 # AJUSTES DO LOGGING
 LOGGING = {
     'version': 1,

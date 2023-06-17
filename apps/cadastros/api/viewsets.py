@@ -44,6 +44,7 @@ def view_propostas(request):
 
             content = {'Sua requisição foi atendida com sucesso.'}
             # Avaliar a proposta
+
             avaliar_propostas.delay(proposta_atual.id)
             return Response(content, status=status.HTTP_201_CREATED)
         else:
