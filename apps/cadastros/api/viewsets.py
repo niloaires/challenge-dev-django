@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from apps.cadastros.tasks import avaliar_propostas
 from apps.cadastros.api.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -43,6 +43,8 @@ def view_propostas(request):
                 )
 
             content = {'Sua requisição foi atendida com sucesso.'}
+            # Avaliar a proposta
+            avaliar_propostas.delay(proposta_atual.id)
             return Response(content, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,

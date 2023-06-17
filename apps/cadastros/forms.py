@@ -10,15 +10,16 @@ class CamposForm(forms.ModelForm):
     def clean(self):
         # Verifica se o campo nome já existe  na base de dados
         data = self.cleaned_data
-        teste = self.cleaned_data['nome']
 
         if not self.instance.pk:
             """
             Esta lógica de validação só será utilizada 
             quando se tratar de um novo registro
             """
-            raise forms.ValidationError("Um campo com o nome "
-                                        "{} já existe.".format(data['nome']))
+            if CamposModel.objects.filter(nome=data['nome']).exists():
+                raise forms.ValidationError("Um campo com o nome "
+                                            "{} já existe.".
+                                            format(data['nome']))
 
 
 class PropostasForm(forms.ModelForm):

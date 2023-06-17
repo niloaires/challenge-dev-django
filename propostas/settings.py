@@ -47,7 +47,7 @@ APPS_TERCEIROS = [
 
 APPS_PROPRIOS = [
     "apps.cadastros",
-    "apps.clientes",
+
 
 ]
 INSTALLED_APPS = APPS_NATIVOS + APPS_TERCEIROS + APPS_PROPRIOS
@@ -146,7 +146,21 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
 ]
 
-
-#Ajustes do Celery
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'  # URL do RabbitMQ
+# AJUSTES DO CELERY
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'
+# AJUSTES DO LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
