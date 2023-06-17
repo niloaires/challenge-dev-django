@@ -2,13 +2,18 @@ version: "3.8"
 
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    container_name: rabbitmq_container
+    image: rabbitmq:3.9
     networks:
-      default:
-    hostname: rabbit
+      digital_sys_rede:
+    hostname: "rabbitmq"
+    environment:
+        - RABBITMQ_DEFAULT_USER=guest
+        - RABBITMQ_DEFAULT_PASS=guest
     ports:
       - "5672:5672"
       - "15672:15672"
+
   api:
     container_name: api_container
     build:
@@ -17,7 +22,7 @@ services:
     env_file:
       - .env
     networks:
-      default:
+      digital_sys_rede:
     ports:
       - "8000:8000"
     hostname: api
@@ -26,13 +31,14 @@ services:
     depends_on:
       - rabbitmq
   celery:
+    container_name: celery_container
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
     networks:
-      default:
+      digital_sys_rede:
     volumes:
       - .:/code
     command: celery -A propostas worker --loglevel=info
@@ -44,7 +50,7 @@ services:
     env_file:
       - .env
     networks:
-      default:
+      digital_sys_rede:
     ports:
       - "3000:3000"
     hostname: frontend
@@ -57,11 +63,8 @@ services:
 
 
 networks:
-    default:
-      ipam:
-        driver: default
-        config:
-            - subnet: 172.20.0.0/24
+    digital_sys_rede:
+      driver: bridge
 
 
 

@@ -57,3 +57,8 @@ def avaliar_propostas(pk):
         proposta_em_analise.aprovada = False
         proposta_em_analise.save()
         log.info('Proposta reprovada: {}'.format(proposta_em_analise))
+
+
+@shared_task()
+def teste():
+    log.info('Teste')
