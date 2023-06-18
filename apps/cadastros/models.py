@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from django.core.validators import MinValueValidator
-
-
+import datetime
 # Create your models here.
 
 
@@ -38,13 +36,21 @@ class CamposModel(models.Model):
         super(CamposModel, self).save(*args, **kwargs)
 
 
+CHOICE_STATUS = (
+    ('Aguardando análise', 'Aguardando análise'),
+    ('Aprovada', 'Aprovada'),
+    ('Reprovada', 'Reprovada')
+)
+
+
 class PropostasModel(models.Model):
     """
     PropostasModel é a classe que representa as
     propostas que serão cadastradas.
     """
-
-    aprovada = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=CHOICE_STATUS,
+                              default='Aguardando análise')
+    avaliada = models.BooleanField(default=False)
     data_registro = models.DateTimeField(auto_now_add=True,
                                          verbose_name='Data de registro')
     data_avaliacao = models.DateTimeField(blank=True, null=True,
@@ -55,18 +61,13 @@ class PropostasModel(models.Model):
         verbose_name_plural = "Propostas"
         ordering = ['data_registro']
 
-    @property
-    def status(self):
+    def save(self, *args, **kwargs):
         """
-        Método que retorna o status da proposta.
+        Método que a data e hora da avaliação.
         """
-        if self.data_avaliacao is None:
-            return 'Aguardando análise'
-        else:
-            if self.aprovada:
-                return 'Aprovada'
-            else:
-                return 'Reprovada'
+        if self.avaliada and not self.data_avaliacao:
+            self.data_avaliacao = datetime.datetime.now()
+        super(PropostasModel, self).save(*args, **kwargs)
 
     def __str__(self):
         return "{} - {}".format(self.id, self.data_registro.
@@ -91,3 +92,5 @@ class RespostasCamposModels(models.Model):
         verbose_name = "Resposta do campo"
         verbose_name_plural = "Respostas dos campos"
         ordering = ['campo']
+
+

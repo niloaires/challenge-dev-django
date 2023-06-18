@@ -41,13 +41,14 @@ APPS_NATIVOS = [
 APPS_TERCEIROS = [
     "rest_framework",
     "django_extensions",
-    "corsheaders"
+    "corsheaders",
+    'django_celery_beat',
 
 ]
 
 APPS_PROPRIOS = [
     "apps.cadastros",
-    "apps.clientes",
+
 
 ]
 INSTALLED_APPS = APPS_NATIVOS + APPS_TERCEIROS + APPS_PROPRIOS
@@ -146,7 +147,28 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
 ]
 
-
-#Ajustes do Celery
-CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'  # URL do RabbitMQ
+# AJUSTES DO CELERY
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672/'
 CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_DEFAULT_QUEUE = 'default'
+CELERY_TASK_DEFAULT_EXCHANGE = 'default'
+CELERY_TASK_DEFAULT_ROUTING_KEY = 'default'
+# AJUSTES DO LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}

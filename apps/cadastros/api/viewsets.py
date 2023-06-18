@@ -1,8 +1,10 @@
-from rest_framework import viewsets
 from apps.cadastros.api.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+
+import logging
+log = logging.getLogger(__name__)
 
 
 @api_view(['GET'])
@@ -43,6 +45,7 @@ def view_propostas(request):
                 )
 
             content = {'Sua requisição foi atendida com sucesso.'}
+
             return Response(content, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,
