@@ -27,7 +27,7 @@ services:
       - "8000:8000"
     hostname: api
     volumes:
-      - .:/app
+      - app-volume:/app
     depends_on:
       - rabbitmq
     restart: on-failure
@@ -44,7 +44,7 @@ services:
     networks:
       digital_sys_rede:
     volumes:
-      - .:/app
+      - app-volume:/app
     command: celery -A propostas worker --beat -l info
   frontend:
     container_name: frontend_container
@@ -64,13 +64,13 @@ services:
       api:
         condition: service_started
     volumes:
-      - ./frontend:/app/frontend
-
-
-
+      - app-volume-frontend:/app/frontend
 networks:
     digital_sys_rede:
       driver: bridge
+volumes:
+  app-volume:
+  app-volume-frontend:
 
 
 
