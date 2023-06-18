@@ -6,14 +6,27 @@ Este é um desafio técnico para criar um sistema de gestão de propostas de emp
 - Django Rest Framework
 - Django Celery
 
+
+#### Considerações iniciais
+Prezado avaliador, a princípio, quero agradecer a oportunidade dada pela DigitalSys
+no que diz respeito a este desafio técnico. Foi uma experiência muito enriquecedora e
+desafiadora. 
+
+Informo que fiz questão de manter ao máximo a semântica do código, bem como a
+consonância com o PEP8.
+
+No que diz respeito a execução das tasks no Celery, setei o tempo de repetição para 5 minutos,
+no entanto, caso seja interessante, poderá reduzir esse tempo, através da linha 37 do arquivo
+tasks.py, que se encontra no diretório: /apps/cadastros/tasks.py
+
 ### Cumprimento do requisito de orientação para execução do projeto:
-1.1 - Clone o repositório e execute o comando abaixo para subir o projeto:
+1.1 - Clone o repositório e execute o comando abaixo alterar para acessar branch adequada:
 
 ```bash
 git checkout main
 ```
 
-1.2 - Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis de ambiente:
+1.2 - Crie um arquivo .env na raiz do projeto e adicione as seguintes variáveis de ambientes:
 
 ```
 DEBUG=True
@@ -21,14 +34,9 @@ DEBUG=True
 1.3 - Instale em seu ambiente o docker e o docker-compose
 
 Essa etapa pode ser feita através do link: https://docs.docker.com/engine/install/
-1.4 - Execute o comando abaixo para subir o projeto:
 
-(Verifique se as portas 8000, 3000, 5672 e 15672 estão disponíveis)
+1.4 - Execute o comando abaixo para subir o projeto (Verifique se as portas 8000, 3000, 5672 e 15672 estão disponíveis. Verifique ainda se está no diretório raiz do projeto):
 
-Verifique ainda se está no diretório raiz do projeto)
-
-
-1.4.1 - Execute o comando abaixo para subir o projeto:
 
 ```bash 
 docker-compose -f docker-compose.yml up --build
@@ -41,11 +49,13 @@ docker-compose -f docker-compose.yml up --build
 ```bash
 docker exec -it api_container python manage.py runscript criar_superusuario
 ``` 
-Informe um nome de usuário da sua preferência. O Script deverá criar uma senha e informar ao final.
+Informe um nome de usuário da sua preferência e o Script deverá criar uma senha e informar ao final.
+
+
+### Backend
+
 
 O link para acesso ao admin é: http://localhost:8000/admin e deverá estar disponível ao final do script
-
-O link de cesso ao frontend é: http://localhost:3000
 
 2.1 - Cadastro de campos
 
@@ -53,7 +63,7 @@ No ambiente de admin, acesse o menu "Campos" e cadastre os campos que deverão c
 
 Optei por criar um modelo de campos dinâmicos, onde o 
 administrador do sistema poderá cadastrar os campos que 
-devem constar na proposta através do django-admin. Como esta mencionano nos requisitos; porém adicionei atributos de obrigatoriedade e campo único, para melhor a experiência no frontend.
+devem constar na proposta através do django-admin. Como é mencionado nos requisitos, porém,  adicionei atributos de obrigatoriedade e campo único, para melhor a experiência no frontend.
 
 
 ### Frontend
@@ -67,13 +77,17 @@ http://localhost:3000/nova-proposta
 Após conclusão e validação do campo, em 3 segundos o usuário é direcionando para um lista de Propostas
 
 
-### Task de avaliação da proposta
+### Task de avaliação da proposta (Celery)
 O algorithmo de avaliação da proposta foi criado no arquivo tasks.py, 
 onde com base no id do objeto (ímpar ou par) A avaliação da proposta é aprovada ou negada, assim
-garantindo que 50% das proopostas sejam aprovadas. A execução da taks tem frequência de 5 minutos, 
+garantindo que 50% das proopostas sejam aprovadas. 
+
+A execução da taks tem frequência de 5 minutos, 
 para simular uma avaliação assíncrona.
 
 
+
+#### Bibliotecas utilizadas
 ```
 O projeto executa o a versão 3.8 do Python
 
