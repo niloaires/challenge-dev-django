@@ -30,18 +30,22 @@ services:
       - .:/app
     depends_on:
       - rabbitmq
+    restart: on-failure
+
   celery:
     container_name: celery_container
+    restart: on-failure
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+      - api
     networks:
       digital_sys_rede:
     volumes:
-      - .:/code
-    command: celery -A propostas worker --loglevel=info
+      - .:/app
+    command: celery -A propostas worker --beat -l info
   frontend:
     container_name: frontend_container
     build:
@@ -56,6 +60,8 @@ services:
     hostname: frontend
     depends_on:
       rabbitmq:
+        condition: service_started
+      api:
         condition: service_started
     volumes:
       - ./frontend:/app/frontend

@@ -22,6 +22,8 @@ class CamposForm(forms.ModelForm):
                                             format(data['nome']))
 
 
+
+
 class PropostasForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PropostasForm, self).__init__()
