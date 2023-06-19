@@ -59,15 +59,13 @@ services:
       - "3000:3000"
     stdin_open: true
     hostname: frontend
-    depends_on:
-      rabbitmq:
-        condition: service_started
-      api:
-        condition: service_started
+    #depends_on:
+      #rabbitmq:
+        #condition: service_started
+      #api:
+        #condition: service_started
     volumes:
       - app-volume-frontend:/app/frontend
-      - ./app/frontend/node_modules
-
 networks:
     digital_sys_rede:
       driver: bridge
