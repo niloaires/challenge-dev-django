@@ -24,6 +24,7 @@ def avaliacao_propostas():
                 i.save()
             else:
                 i.status = 'Reprovada'
+                i.avaliada = True
                 i.data_avaliacao = datetime.datetime.now()
                 i.save()
             log.info('Proposta {} / {} avaliada com sucesso!'.
