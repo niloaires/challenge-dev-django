@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 import datetime
+
+
 # Create your models here.
 
 
@@ -61,14 +63,6 @@ class PropostasModel(models.Model):
         verbose_name_plural = "Propostas"
         ordering = ['data_registro']
 
-    def save(self, *args, **kwargs):
-        """
-        Método que a data e hora da avaliação.
-        """
-        if self.avaliada and not self.data_avaliacao:
-            self.data_avaliacao = datetime.datetime.now()
-        super(PropostasModel, self).save(*args, **kwargs)
-
     def __str__(self):
         return "{} - {}".format(self.id, self.data_registro.
                                 strftime("%d/%m/%Y"))
@@ -92,5 +86,3 @@ class RespostasCamposModels(models.Model):
         verbose_name = "Resposta do campo"
         verbose_name_plural = "Respostas dos campos"
         ordering = ['campo']
-
-
