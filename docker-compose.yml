@@ -57,6 +57,7 @@ services:
       digital_sys_rede:
     ports:
       - "3000:3000"
+    stdin_open: true
     hostname: frontend
     depends_on:
       rabbitmq:
@@ -65,6 +66,8 @@ services:
         condition: service_started
     volumes:
       - app-volume-frontend:/app/frontend
+      - ./app/frontend/node_modules
+
 networks:
     digital_sys_rede:
       driver: bridge
